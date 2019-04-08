@@ -1,65 +1,197 @@
 ﻿@model Tasty.Payment
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Make Payments";
 }
 
-<h2>Create</h2>
+<h2>LunchBox</h2>
 
 
-@using (Html.BeginForm()) 
+
+<label>
+    <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+</label>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { onsubmit = "return getElems();" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Payment</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <h3>Payments</h3>
+        <div class="row">
+            <div class="col-50">
+                <h3>Billing Address</h3>
+                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                <input type="text" id="email" name="email" placeholder="john@example.com">
+                <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+                <label for="city"><i class="fa fa-institution"></i> City</label>
+                <input type="text" id="city" name="city" placeholder="New York">
 
+
+
+                <div class="col-50">
+                    <label for="fname">Accepted Cards</label>
+                    <div class="icon-container">
+                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                    </div>
+
+                </div>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CardName, new { htmlAttributes = new { @class = "form-control", @id = "nameOnCard" } })
+                        @Html.ValidationMessageFor(model => model.CardName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control", @id = "cardNumber" } })
+                        @Html.ValidationMessageFor(model => model.CardNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control", @id = "expiryDate" } })
+                        @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cvv, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cvv, new { htmlAttributes = new { @class = "form-control", @id = "cvv" } })
+                        @Html.ValidationMessageFor(model => model.Cvv, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <!-- @*
         <div class="form-group">
-            @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.totalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CardNumber, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.totalPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.totalPrice, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CardName, "Card Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CardName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CardName, "", new { @class = "text-danger" })
+            *@-->
+                <div class="form-group">
+                    <div class="col-md-5">
+                        <label id="error"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Pay Now!" id="submit" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cvv, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cvv, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cvv, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+         </div>
     </div>
-}
+            }
 
-    <div style="padding-left:195px;">
-        <img src="~/Content/Images/cards.jpg" width="200" height="50">
-    </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+            <style>
+                body {
+                    font-family: Arial;
+                    font-size: 17px;
+                    padding: 8px;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                .row {
+                    display: -ms-flexbox; /* IE10 */
+                    display: flex;
+                    -ms-flex-wrap: wrap; /* IE10 */
+                    flex-wrap: wrap;
+                    margin: 0 -16px;
+                }
+
+                .col-25 {
+                    -ms-flex: 25%; /* IE10 */
+                    flex: 25%;
+                }
+
+                .col-50 {
+                    -ms-flex: 50%; /* IE10 */
+                    flex: 50%;
+                }
+
+                .col-75 {
+                    -ms-flex: 75%; /* IE10 */
+                    flex: 75%;
+                }
+
+                .col-25,
+                .col-50,.form-group
+                .col-75 {
+                    padding: 0 16px;
+                }
+
+                .container {
+                    background-color: #f2f2f2;
+                    padding: 5px 20px 15px 20px;
+                    border: 1px solid lightgrey;
+                    border-radius: 3px;
+                }
+
+                input[type=text] {
+                    width: 100%;
+                    margin-bottom: 20px;
+                    padding: 12px;
+                    border: 1px solid #ccc;
+                    border-radius: 3px;
+                }
+
+                label {
+                    margin-bottom: 10px;
+                    display: block;
+                }
+
+                .icon-container {
+                    margin-bottom: 20px;
+                    padding: 7px 0;
+                    font-size: 24px;
+                }
+
+                .btn {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 12px;
+                    margin: 10px 0;
+                    border: none;
+                    width: 100%;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 17px;
+                }
+
+                    .btn:hover {
+                        background-color: #45a049;
+                    }
+
+                a {
+                    color: #2196F3;
+                }
+
+                hr {
+                    border: 1px solid lightgrey;
+                }
+
+                span.price {
+                    float: right;
+                    color: grey;
+                }
+            </style>
