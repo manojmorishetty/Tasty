@@ -1,0 +1,60 @@
+@model IEnumerable<Tasty.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Menu</h2>
+@using (Html.BeginForm("Cart", "items", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div style="float: right"><button id="checkout" class="btn btn-primary"><b>Check Out</b></button></div>
+    <table class="table">
+        <tr>
+            <th>
+                
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BasePrice)
+            </th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <div class="form-group">
+                <tr>
+                    <td>
+                        @{
+                            <img src="@Url.Content("~/Content/Images/" + item.ItemName + ".png")" alt=@item.ItemName width="100px" />
+                        }
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => item.ItemId,  new { @class = "form-control", style="display:none" } )
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BasePrice, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        <button id=@item.ItemId +increment class="btn btn-info"><b>+</b></button>
+                        <button id=@item.ItemId +decrement class="btn btn-info"><b>-</b></button>
+                    </td>
+                    <td>
+                        <input id=@item.ItemId +quantity type="text" value="0" class="form-control" />
+                    </td>
+                    <td>
+                        <input id=@item.ItemId +addcart type="submit" value="Add to cart" class="btn btn-default" />
+                    </td>
+                </tr>
+                </div>
+                }
+
+        </table>
+                        }
