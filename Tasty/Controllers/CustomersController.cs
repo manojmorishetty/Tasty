@@ -36,7 +36,7 @@ namespace Tasty.Controllers
             }
             else
             {
-                Session["userId"] = db.Customers.Where(e => e.email == customer.email && e.Password == customer.Password).FirstOrDefault().UserId;
+                Session["username"] = db.Customers.Where(e => e.email == customer.email && e.Password == customer.Password).FirstOrDefault().FirstName;
                 Session["email"] = customer.email;
                 Session["UserType"] = customer.UserType;
                 if (userExist.UserType.Equals("Seller"))
@@ -52,6 +52,7 @@ namespace Tasty.Controllers
         }
         public ActionResult Logout()
         {
+            Session.Clear();
             return RedirectToAction("View","Items");
         }
 

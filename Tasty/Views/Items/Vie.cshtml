@@ -3,33 +3,41 @@
 @{
     ViewBag.Title = "Index";
 }
-<h2>Menu</h2>
+<h2>Menu</h2><br />
 @using (Html.BeginForm("Cart", "items", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    foreach (var item in Model)
+<div class="row">
+
+    @foreach (var item in Model)
     {
-        <div id="item-details">
-            <p>
-                @{
-                    <img src="@Url.Content("~/Content/Images/" + item.ItemName + ".png")" alt=@item.ItemName width="100px" />
-                }
-            </p>
-            <p>
-                <em>Item Name</em>
-                @item.ItemName
-            </p>
-            <p>
-                <em>Price:</em>
-                @item.BasePrice
-            </p>
-            <p class="button">
-                <button id=@item.ItemId +increment class="btn btn-info"><b>+</b></button>
-                <button id=@item.ItemId +decrement class="btn btn-info"><b>-</b></button>
-            </p>
-            <p class="button">
-                @Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ItemId }, "")
-            </p>
-        </div>
-    }
+    <div class="col-sm-6">
+        <p>
+            @{
+                <img src="@Url.Content("~/Content/Images/" + item.ItemName + ".png")" alt=@item.ItemName width="200px" />
+            }
+        </p>
+        <p>
+            <em><b>Item:</b></em>
+            @item.ItemName
+        </p>
+        <p>
+            <em><b>Price:</b></em>
+            @item.BasePrice
+        </p>
+        <p class="button">
+            <button id=@item.ItemId +increment class="btn btn-info"><b>+</b></button>
+            <button id=@item.ItemId +decrement class="btn btn-info"><b>-</b></button>
+        </p>
+        <p>
+            <input id=@item.ItemId +quantity type="text" value="0" class="form-control" />
+        </p>
+        <p class="button">
+            @Html.ActionLink("Add to cart", "AddToCart", "ShoppingCart", new { id = item.ItemId }, "")
+        </p>
+
+        <br />
+    </div>
+            }
+    </div>
 }
