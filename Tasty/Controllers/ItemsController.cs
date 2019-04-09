@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using Tasty;
 using System.IO;
+using System.Web.Services;
+using Newtonsoft.Json;
 
 namespace Tasty.Controllers
 {
@@ -119,14 +121,30 @@ namespace Tasty.Controllers
             return View(await db.Items.ToListAsync());
         }
 
-        public ActionResult Cart(Item items)
+        [HttpPost]
+        [WebMethod]
+        public JsonResult Cart(string JsonLocalStorageObj)
         {
-            var item = db.Items.Where(e => e.ItemId == items.ItemId).FirstOrDefault();
-            var quantity = 10;
-            return View("Index");
+            var Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonLocalStorageObj);
+            List<String> keys = new List<string>();
+            List<String> values = new List<string>();
+            foreach (var x in Data.Keys.ToList())
+            {
+                keys.Add(x);
+                values.Add(Data[x]);
+            }
+            List<Item> items = new List<Item>();
+            for(int i = 0; i < keys.Count(); i++)
+            {
+                int itemId = Convert.ToInt32(keys.ElementAt(i));
+                Item item = db.Items.Where(e => e.ItemId == itemId).FirstOrDefault();
+                item.Quantity= Convert.ToInt32(values.ElementAt(i));
+                items.Add(item);
+            }
+            return Json(items);
         }
 
-        public async Task<ActionResult> Vie()
+            public async Task<ActionResult> Vie()
         {
             return View(await db.Items.ToListAsync());
         }

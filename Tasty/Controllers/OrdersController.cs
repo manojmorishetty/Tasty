@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Tasty;
+using System.Web.Services;
+using Newtonsoft.Json;
 
 namespace Tasty.Controllers
 {
@@ -37,29 +39,30 @@ namespace Tasty.Controllers
             return View(order);
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            ViewBag.UserId = new SelectList(db.Customers, "UserId", "FirstName");
-            return View();
-        }
-
         // POST: Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "OrderId,UserId,OrderPrice")] Order order)
+        //[WebMethod]
+        public JsonResult Create(string hiddentype)
         {
-            if (ModelState.IsValid)
+            var Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(hiddentype);
+            List<String> Quantities = new List<string>();
+            List<String> ItemIds = new List<string>();
+            foreach (var x in Data.Keys.ToList())
             {
-                db.Orders.Add(order);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                Quantities.Add("Quantity");
+                Quantities.Add("Quantity");
             }
-
-            ViewBag.UserId = new SelectList(db.Customers, "UserId", "FirstName", order.UserId);
-            return View(order);
+            List<Item> items = new List<Item>();
+            //for (int i = 0; i < keys.Count(); i++)
+            //{
+            //    int itemId = Convert.ToInt32(keys.ElementAt(i));
+            //    Item item = db.Items.Where(e => e.ItemId == itemId).FirstOrDefault();
+            //    item.Quantity = Convert.ToInt32(values.ElementAt(i));
+            //    items.Add(item);
+            //}
+            return Json(items);
         }
 
         // GET: Orders/Edit/5

@@ -18,13 +18,9 @@ namespace Tasty
         public int PaymentId { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrderId { get; set; }
-        [Display(Name = "Card Number")]
         public string CardNumber { get; set; }
-        [Display(Name = "Card Name")]
         public string CardName { get; set; }
-        [Display(Name = "CVV")]
         public Nullable<int> Cvv { get; set; }
-        [Display(Name = "Expiry Date")]
         public string ExpiryDate { get; set; }
         public virtual Order Order { get; set; }
     }

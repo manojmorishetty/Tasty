@@ -258,7 +258,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <EntityDeploy Include="Tasty.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Tasty.Designer.cs</LastGenOutput>
@@ -284,11 +283,12 @@
     <Content Include="Views\OrderDetails\Edit.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Views\Payments\Create.cshtml" />
-    <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\Items\Vie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
