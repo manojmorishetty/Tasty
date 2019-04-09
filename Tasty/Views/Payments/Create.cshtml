@@ -32,15 +32,6 @@
 
 
 
-                <div class="col-50">
-                    <label for="fname">Accepted Cards</label>
-                    <div class="icon-container">
-                        <i class="fa fa-cc-visa" style="color:navy;"></i>
-                        <i class="fa fa-cc-amex" style="color:blue;"></i>
-                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                        <i class="fa fa-cc-discover" style="color:orange;"></i>
-                    </div>
-
                 </div>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -79,8 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.totalPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.totalPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.totalPrice, "", new { @class = "text-danger" })
+
             </div>
         </div>
             *@-->
