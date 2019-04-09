@@ -9,7 +9,8 @@ namespace Tasty
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery_old.js"));
             bundles.Add(new ScriptBundle("~/bundles/item").Include(
                         "~/Scripts/item.js"));
 
@@ -21,14 +22,21 @@ namespace Tasty
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/validation.js"));
+                        "~/Scripts/validation.js",
+                        "~/Scripts/custom.js",
+                        "~/Scripts/smoothscroll.js",
+                        "~/Scripts/owl.carousel.min"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/owl.carousel.css",
+                      "~/Content/owl.theme.default.min.css",
+                      "~/Content/templatemo-style.css"));
         }
     }
 }
