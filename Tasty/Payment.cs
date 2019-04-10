@@ -18,10 +18,23 @@ namespace Tasty
         public int PaymentId { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrderId { get; set; }
+        [Required(ErrorMessage = "Please enter the Card Number")]
+        [StringLength(16, MinimumLength = 15, ErrorMessage = "Invalid Card Number")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
+        [Display(Name = "Card Number")]
         public string CardNumber { get; set; }
+        [Required(ErrorMessage = "Please enter the name on card")]
+        [Display(Name = "Name On Card")]
+        [RegularExpression(@"^[a-zA-Z]{5,20}$", ErrorMessage = "Invalid characters")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Only 5-20 characters allowed")]
         public string CardName { get; set; }
         public Nullable<int> Cvv { get; set; }
+        [Required(ErrorMessage = "Please enter the Card Number")]
+        [StringLength(16, MinimumLength = 15, ErrorMessage = "Invalid Card Number")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
+        [Display(Name = "Card Number")]
         public string ExpiryDate { get; set; }
+        public string CardtType { get; set; }
         public virtual Order Order { get; set; }
     }
 }

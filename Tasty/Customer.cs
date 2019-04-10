@@ -22,15 +22,25 @@ namespace Tasty
         }
     
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please Enter FirstName ")]
         [Display(Name = "First Name")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct FirstName ")]
+        [StringLength(50, ErrorMessage = "name should be Max length of 50")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Please Enter FirstName ")]
         [Display(Name = "Last Name")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct Last Name ")]
+        [StringLength(50, ErrorMessage = "name should be Max length of 50")]
         public string LastName { get; set; }
         [Display(Name = "Password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Please Enter Email Address")]
         [Display(Name = "Email")]
+        [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$", ErrorMessage = "Please Enter Correct Email Address")]
         public string email { get; set; }
         [Display(Name = "User Type")]
+        [Required(ErrorMessage = "Please select User Type")]
         public string UserType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

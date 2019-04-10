@@ -143,10 +143,5 @@ namespace Tasty.Controllers
             }
             return Json(items);
         }
-
-            public async Task<ActionResult> Vie()
-        {
-            return View(await db.Items.ToListAsync());
-        }
     }
 }
