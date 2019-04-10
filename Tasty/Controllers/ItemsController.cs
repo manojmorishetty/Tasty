@@ -41,7 +41,7 @@ namespace Tasty.Controllers
             if (ModelState.IsValid)
             {
                 string fileName = item.ItemName.ToString();
-                string extension = Path.GetExtension(item.ImageFile.FileName);
+                string extension = Path.GetExtension(item.img_src);
                 fileName += extension;
                 item.img_src = "~/Images/" + fileName;
                 fileName = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
@@ -116,7 +116,7 @@ namespace Tasty.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> View()
+        public new async Task<ActionResult> View()
         {
             return View(await db.Items.ToListAsync());
         }

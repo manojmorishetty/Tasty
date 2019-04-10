@@ -65,8 +65,9 @@ namespace Tasty.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(Customer customer)
         {
+            
             var userExist = db.Customers.Where(e => e.email == customer.email).FirstOrDefault();
-            if (ModelState.IsValid && userExist==null)
+            if (ModelState.IsValid&&userExist==null)
             {
                 db.Customers.Add(customer);
                 await db.SaveChangesAsync();

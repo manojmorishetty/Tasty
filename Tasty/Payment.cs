@@ -11,8 +11,7 @@ namespace Tasty
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Payment
     {
         public int PaymentId { get; set; }
@@ -22,6 +21,7 @@ namespace Tasty
         public string CardName { get; set; }
         public Nullable<int> Cvv { get; set; }
         public string ExpiryDate { get; set; }
+    
         public virtual Order Order { get; set; }
     }
 }

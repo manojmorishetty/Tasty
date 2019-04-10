@@ -11,8 +11,7 @@ namespace Tasty
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,16 +21,17 @@ namespace Tasty
         }
     
         public int UserId { get; set; }
-        [Display(Name = "First Name")]
         public string FirstName { get; set; }
-        [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Display(Name = "Password")]
         public string Password { get; set; }
-        [Display(Name = "Email")]
         public string email { get; set; }
-        [Display(Name = "User Type")]
+        public string StreetNumber { get; set; }
+        public string City { get; set; }
+        public string Province { get; set; }
+        public string Country { get; set; }
+        public string PostalCode { get; set; }
         public string UserType { get; set; }
+        public string PhoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }

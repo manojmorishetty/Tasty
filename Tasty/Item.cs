@@ -11,9 +11,7 @@ namespace Tasty
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Web;
-
+    
     public partial class Item
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,15 +21,13 @@ namespace Tasty
         }
     
         public int ItemId { get; set; }
-        [Display(Name = "Item Name")]
         public string ItemName { get; set; }
-        [Display(Name = "Quantity")]
         public Nullable<int> Quantity { get; set; }
-        [Display(Name = "Price")]
         public string BasePrice { get; set; }
-        [Display(Name = "Upload Image")]
         public string img_src { get; set; }
-        public HttpPostedFileBase ImageFile { get; set; }
+
+        public System.Web.HttpPostedFileBase ImageFile { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }

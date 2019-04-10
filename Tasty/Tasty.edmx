@@ -14,7 +14,13 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="UserType" Type="varchar" MaxLength="10" />
+          <Property Name="StreetNumber" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Province" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="50" />
+          <Property Name="UserType" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Items">
           <Key>
@@ -54,7 +60,7 @@
           <Property Name="Cvv" Type="int" />
           <Property Name="ExpiryDate" Type="varchar" MaxLength="15" />
         </EntityType>
-        <Association Name="FK__OrderDeta__ItemI__66603565">
+        <Association Name="FK__OrderDeta__ItemI__3F466844">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -66,7 +72,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__656C112C">
+        <Association Name="FK__OrderDeta__Order__3E52440B">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -78,7 +84,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__UserId__628FA481">
+        <Association Name="FK__Orders__UserId__3B75D760">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -90,7 +96,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Payment__OrderId__693CA210">
+        <Association Name="FK__Payment__OrderId__4222D4EF">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -108,19 +114,19 @@
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__OrderDeta__ItemI__66603565" Association="Self.FK__OrderDeta__ItemI__66603565">
+          <AssociationSet Name="FK__OrderDeta__ItemI__3F466844" Association="Self.FK__OrderDeta__ItemI__3F466844">
             <End Role="Items" EntitySet="Items" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__656C112C" Association="Self.FK__OrderDeta__Order__656C112C">
+          <AssociationSet Name="FK__OrderDeta__Order__3E52440B" Association="Self.FK__OrderDeta__Order__3E52440B">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__UserId__628FA481" Association="Self.FK__Orders__UserId__628FA481">
+          <AssociationSet Name="FK__Orders__UserId__3B75D760" Association="Self.FK__Orders__UserId__3B75D760">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Payment__OrderId__693CA210" Association="Self.FK__Payment__OrderId__693CA210">
+          <AssociationSet Name="FK__Payment__OrderId__4222D4EF" Association="Self.FK__Payment__OrderId__4222D4EF">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
@@ -130,14 +136,9 @@
     <edmx:ConceptualModels>
       <Schema Namespace="TastyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TastyEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Customers" EntityType="TastyModel.Customer" />
           <EntitySet Name="Items" EntityType="TastyModel.Item" />
           <EntitySet Name="OrderDetails" EntityType="TastyModel.OrderDetail" />
           <EntitySet Name="Orders" EntityType="TastyModel.Order" />
-          <AssociationSet Name="FK__Orders__UserId__5535A963" Association="TastyModel.FK__Orders__UserId__5535A963">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK__OrderDeta__ItemI__59063A47" Association="TastyModel.FK__OrderDeta__ItemI__59063A47">
             <End Role="Item" EntitySet="Items" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
@@ -151,19 +152,12 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
+          <EntitySet Name="Customers" EntityType="TastyModel.Customer" />
+          <AssociationSet Name="FK__Orders__UserId__3B75D760" Association="TastyModel.FK__Orders__UserId__3B75D760">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Customer">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Orders" Relationship="TastyModel.FK__Orders__UserId__5535A963" FromRole="Customer" ToRole="Order" />
-          <Property Name="UserType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="ItemId" />
@@ -192,22 +186,10 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrderPrice" Type="Double" />
-          <NavigationProperty Name="Customer" Relationship="TastyModel.FK__Orders__UserId__5535A963" FromRole="Order" ToRole="Customer" />
           <NavigationProperty Name="OrderDetails" Relationship="TastyModel.FK__OrderDeta__Order__5812160E" FromRole="Order" ToRole="OrderDetail" />
           <NavigationProperty Name="Payments" Relationship="TastyModel.FK__Payment__OrderId__5BE2A6F2" FromRole="Order" ToRole="Payment" />
+          <NavigationProperty Name="Customer" Relationship="TastyModel.FK__Orders__UserId__3B75D760" FromRole="Order" ToRole="Customer" />
         </EntityType>
-        <Association Name="FK__Orders__UserId__5535A963">
-          <End Type="TastyModel.Customer" Role="Customer" Multiplicity="0..1" />
-          <End Type="TastyModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__OrderDeta__ItemI__59063A47">
           <End Type="TastyModel.Item" Role="Item" Multiplicity="0..1" />
           <End Type="TastyModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
@@ -257,24 +239,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StreetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orders" Relationship="TastyModel.FK__Orders__UserId__3B75D760" FromRole="Customer" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Orders__UserId__3B75D760">
+          <End Type="TastyModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="TastyModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TastyModelStoreContainer" CdmEntityContainer="TastyEntities">
-          <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="TastyModel.Customer">
-              <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Items">
             <EntityTypeMapping TypeName="TastyModel.Item">
               <MappingFragment StoreEntitySet="Items">
@@ -314,6 +314,24 @@
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="TastyModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
