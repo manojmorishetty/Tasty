@@ -28,11 +28,12 @@ namespace Tasty
         [RegularExpression(@"^[a-zA-Z]{5,20}$", ErrorMessage = "Invalid characters")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Only 5-20 characters allowed")]
         public string CardName { get; set; }
-        public Nullable<int> Cvv { get; set; }
-        [Required(ErrorMessage = "Please enter the Card Number")]
-        [StringLength(16, MinimumLength = 15, ErrorMessage = "Invalid Card Number")]
+        [Required(ErrorMessage = "Please enter the CVV")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "Invalid CVV Number")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
-        [Display(Name = "Card Number")]
+        public Nullable<int> Cvv { get; set; }
+        [Required(ErrorMessage = "Please enter Expiry Date")]
+        [Display(Name = "Expiry Date")]
         public string ExpiryDate { get; set; }
         public string CardtType { get; set; }
         public virtual Order Order { get; set; }

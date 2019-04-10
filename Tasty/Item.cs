@@ -11,7 +11,8 @@ namespace Tasty
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Item
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,9 +22,14 @@ namespace Tasty
         }
     
         public int ItemId { get; set; }
+        [Required(ErrorMessage = "Please enter Item Name")]
         public string ItemName { get; set; }
+        [Required(ErrorMessage = "Please enter Quantity")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
         public Nullable<int> Quantity { get; set; }
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
         public string BasePrice { get; set; }
+        //[Required(ErrorMessage = "Please upload Image")]
         public string img_src { get; set; }
 
         public System.Web.HttpPostedFileBase ImageFile { get; set; }

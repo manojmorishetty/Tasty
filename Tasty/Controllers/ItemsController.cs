@@ -120,8 +120,22 @@ namespace Tasty.Controllers
         {
             return View(await db.Items.ToListAsync());
         }
+        public class localItem
+    {
+        public localItem()
+        {
+        }
 
-        [HttpPost]
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public string BasePrice { get; set; }
+        public string img_src { get; set; }
+
+        public System.Web.HttpPostedFileBase ImageFile { get; set; }
+            
+    }
+    [HttpPost]
         [WebMethod]
         public JsonResult Cart(string JsonLocalStorageObj)
         {
@@ -133,15 +147,22 @@ namespace Tasty.Controllers
                 keys.Add(x);
                 values.Add(Data[x]);
             }
+            List<localItem> local = new List<localItem>();
             List<Item> items = new List<Item>();
             for(int i = 0; i < keys.Count(); i++)
             {
                 int itemId = Convert.ToInt32(keys.ElementAt(i));
                 Item item = db.Items.Where(e => e.ItemId == itemId).FirstOrDefault();
-                item.Quantity= Convert.ToInt32(values.ElementAt(i));
+                localItem l = new localItem();
+                l.ItemId = item.ItemId;
+                l.ItemName = item.ItemName;
+                l.BasePrice = item.BasePrice;
+                l.img_src = item.img_src;
+                l.Quantity = item.Quantity= Convert.ToInt32(values.ElementAt(i));
                 items.Add(item);
+                local.Add(l);
             }
-            return Json(items);
+            return Json(local);
         }
     }
 }

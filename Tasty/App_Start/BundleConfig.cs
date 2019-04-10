@@ -24,7 +24,6 @@ namespace Tasty
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/validation.js",
                         "~/Scripts/custom.js",
-                        "~/Scripts/smoothscroll.js",
                         "~/Scripts/owl.carousel.min"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(

@@ -90,7 +90,7 @@
             url: "/Items/Cart",
             type: "POST",
             data: { JsonLocalStorageObj: JsonLocalStorageObj },
-            async: false,
+            async: true,
             success: function (data) {
                 toSendData = data;
                 localStorage.clear();
