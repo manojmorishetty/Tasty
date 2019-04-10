@@ -11,7 +11,8 @@ namespace Tasty
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,19 +20,74 @@ namespace Tasty
         {
             this.Orders = new HashSet<Order>();
         }
-    
+        
         public int UserId { get; set; }
+
+        // Inputting First Name 
+        [Required(ErrorMessage = "Please Enter FirstName ")]
+        [Display(Name = "First Name")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct FirstName ")]
+        [StringLength(50, ErrorMessage = "name should be Max length of 50")]
         public string FirstName { get; set; }
+
+        // Inputting Last Name 
+        [Required(ErrorMessage = "Please Enter LastName ")]
+        [Display(Name = "Last Name")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct LastName ")]
+        [StringLength(50, ErrorMessage = "name should be Max length of 50")]
         public string LastName { get; set; }
+
+        // Inputting Password
+        [Required(ErrorMessage = "Please Enter Password")]
+        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        // Inputting Email Address
+        [Required(ErrorMessage = "Please Enter Email Address")]
+        [Display(Name = "Email")]
+        [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$", ErrorMessage = "Please Enter Correct Email Address")]
         public string email { get; set; }
+
+        // Inputting Street Number
+        [Required(ErrorMessage = "Please Enter Street Number")]
+        [Display(Name = "Street Number")]
         public string StreetNumber { get; set; }
+
+        // Inputting City
+        [Required(ErrorMessage = "Please Enter City")]
+        [Display(Name = "City")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct City")]
         public string City { get; set; }
+
+        // Inputting Province/State
+        [Required(ErrorMessage = "Please Enter Province/State")]
+        [Display(Name = "Province/State")]
+        [RegularExpression("^(([a-zA-Z]+\\s?)([A-Za-z]+)?$)", ErrorMessage = "Please Enter Correct Province/State ")]
         public string Province { get; set; }
+
+        //Inputting Country
+        [Required(ErrorMessage = "Please Enter Country")]
+        [Display(Name = "Country")]
+
         public string Country { get; set; }
+
+        // Inputting Postal Code
+        [Required(ErrorMessage = "Please Enter Postal Code")]
+        [Display(Name = "Postal Code")]
+        [RegularExpression("^([0-9]{5}|[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9])$", ErrorMessage = "Please Enter Valid Postal Code")]
         public string PostalCode { get; set; }
-        public string UserType { get; set; }
+
+        //// Inputting Phone Number
+        //[Required(ErrorMessage = "Please enter Phone Number")]
+        [Display(Name = "Phone Number")]
+        [StringLength(11, ErrorMessage = "Phone Number should be maximum of 10", MinimumLength = 10)]
+        [RegularExpression("^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Please Enter Correct Phone Number")]
         public string PhoneNumber { get; set; }
+        public string UserType { get; set; }
+
+
+  
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
