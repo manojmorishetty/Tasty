@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using Tasty;
 using System.Web.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Tasty.Controllers
 {
@@ -44,25 +46,34 @@ namespace Tasty.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[WebMethod]
-        public JsonResult Create(string hiddentype)
+        public async Task<ActionResult> Create(string hiddentype)
         {
-            var Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(hiddentype);
-            List<String> Quantities = new List<string>();
-            List<String> ItemIds = new List<string>();
-            foreach (var x in Data.Keys.ToList())
+            dynamic Data = JsonConvert.DeserializeObject(hiddentype);
+            Data = JsonConvert.DeserializeObject(Data);
+            float totalprice=0;
+            JArray items = (JArray)Data;
+            int length = items.Count;
+            for (int i = 0; i < length; i++)
             {
-                Quantities.Add("Quantity");
-                Quantities.Add("Quantity");
+                Console.WriteLine(Data[i].BasePrice);
+                //totalprice = totalprice+ float.Parse(Data[i].BasePrice, CultureInfo.InvariantCulture);
             }
-            List<Item> items = new List<Item>();
-            //for (int i = 0; i < keys.Count(); i++)
-            //{
-            //    int itemId = Convert.ToInt32(keys.ElementAt(i));
-            //    Item item = db.Items.Where(e => e.ItemId == itemId).FirstOrDefault();
-            //    item.Quantity = Convert.ToInt32(values.ElementAt(i));
-            //    items.Add(item);
-            //}
-            return Json(items);
+            totalprice = 800;
+            var Order = db.Set<Order>();
+            if (Session["userid"] == null)
+            {
+                //Convert.ToInt32(Session["userid"])
+            }
+            Order.Add(new Order { UserId = 4, OrderPrice = totalprice });
+            db.SaveChanges();
+            for (int i=0;i<length;i++)
+            {
+                var Orderdetail = db.Set<OrderDetail>();
+                var LastOrderId = db.Orders.Max(x => x.OrderId);
+                Orderdetail.Add(new OrderDetail { OrderId= LastOrderId ,ItemId=Data[i].ItemId,Quantity= Data[i].Quantity });
+                db.SaveChanges();
+            }
+            return RedirectToAction("Create", "Payments");
         }
 
         // GET: Orders/Edit/5
@@ -78,7 +89,7 @@ namespace Tasty.Controllers
                 return HttpNotFound();
             }
             ViewBag.UserId = new SelectList(db.Customers, "UserId", "FirstName", order.UserId);
-            return View(order);
+            return View();
         }
 
         // POST: Orders/Edit/5

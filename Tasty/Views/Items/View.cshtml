@@ -1,153 +1,144 @@
 ﻿@model IEnumerable<Tasty.Item>
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
 }
-
-
-<h1 style="font-family:Algerian; color:black; font-weight:600">Menu</h1>
-@using (Html.BeginForm("Cart", "items", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <div style="float: right"><input type="button" value="Checkout" id="checkout" onclick="SendtoController()" class="btn btn-primary"></div>
-    <table class="table">
-        <tr>
-            <th>
-
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ItemName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BasePrice)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <div class="form-group">
-                <tr>
-                    <td>
-                        @{
-                            <img src="@Url.Content("~/Content/Images/" + item.ItemName + ".png")" alt=@item.ItemName width="100px" />
-                        }
-                    </td>
-                    @Html.TextBoxFor(model => item.ItemId, new { style = "display:none" })
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ItemName, new { htmlAttributes = new { @class = "form-control" } })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BasePrice, new { htmlAttributes = new { @class = "form-control" } })
-                    </td>
-                    <td>
-                        <button id=@String.Concat(item.ItemId,"increment") class="btn btn-info"><b>+</b></button>
-                        <button id=@String.Concat(item.ItemId,"decrement") class="btn btn-info"><b>-</b></button>
-                    </td>
-                    <td>
-                        <input id=@String.Concat(item.ItemId,"quantity") type="text" value="0" class="form-control" />
-                    </td>
-                    <td>
-                        <input id=@String.Concat(item.ItemId,"addcart") type="button" value="Add to cart" class="btn btn-default" onclick="add('@item.ItemId','@String.Concat(item.ItemId,"quantity")')" />
-                        <p id=@String.Concat(item.ItemId,"itemAdd") style="color:red"></p>
-                    </td>
-                </tr>
-            </div>
-        }
-
-    </table>
-}
-@using (Html.BeginForm("Create", "Orders", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    <div>
-        <table id="myTable" class="table"></table>
-        <input type="hidden" id="hiddentype" name="hiddentype" value=""/>
-        <input type="Submit" Value="Payment" class="btn btn-primary" id="payment" style="display:none" />
+<div> <h2>Menu</h2>
+     <div style="float: right"><input type="button" value="Checkout" id="checkout" onclick="SendtoController()" class="btn btn-primary"></div></div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-4">
+            <p>
+                @{
+                    <img src="@Url.Content("~/Content/Images/" + item.ItemName + ".jpg")" alt=@item.ItemName height="200px" width="300px" />
+                }
+            </p>
+            <p>@Html.TextBoxFor(model => item.ItemId, new { style = "display:none", @id = item.ItemId, @class = "form-control" })</p>
+            <p>
+                <em><b>Item:</b></em>
+                @item.ItemName
+            </p>
+            <p>
+                <em><b>Price:</b></em>
+                @item.BasePrice
+            </p>
+            <p>
+                <button id=@String.Concat(item.ItemId,"increment") class="btn btn-info" onclick="increment(@item.ItemId)"><b>+</b></button>
+                <button id=@String.Concat(item.ItemId,"decrement") class="btn btn-info" onclick="decrement(@item.ItemId)"><b>-</b></button>
+            </p>
+            <p>
+                <input id=@String.Concat(item.ItemId,"quantity") type="text" value="0" class="form-control" />
+            </p>
+            <p>
+                <input id=@String.Concat(item.ItemId,"addcart") type="button" value="Add to cart" class="btn btn-default" onclick="add('@item.ItemId','@String.Concat(item.ItemId,"quantity")')" />
+            <p id=@String.Concat(item.ItemId,"itemAdd") style="color:red"></p>
+            </p>
+            <br />
+        </div>
+    }
+</div>
+<div class="modal fade" id="table">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            @using (Html.BeginForm("Create", "Orders", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <table id="myTable" class="table"></table>
+                    <input type="hidden" id="hiddentype" name="hiddentype" />
+                    <br />
+                    <div align="center"><input type="Submit" Value="Payment" class="btn btn-primary" id="payment" style="display:none" /></div>
+                </div>
+            }
+        </div>
     </div>
-}
-    <script>
-        var itemsCount;
-        localStorage.clear();
-        function add(itemid, value) {
-            var val = document.getElementById(value).value;
-            localStorage.setItem(itemid, val);
-            if (val != 0) {
-                document.getElementById(itemid + "itemAdd").innerText = "Item Added";
-            }
-            else document.getElementById(itemid + "itemAdd").innerText = "";
+    </div>
+
+<script type="text/javascript">
+    var itemsCount;
+    localStorage.clear();
+    function add(itemid, value) {
+        var val = document.getElementById(value).value;
+        localStorage.setItem(itemid, val);
+        if (val != 0) {
+            document.getElementById(itemid + "itemAdd").innerText = "Item Added";
         }
-        function SendtoController() {
-            var JsonLocalStorageObj = JSON.stringify(localStorage);
-            var metaData, headers,toSendData;
-            $.ajax({
-                url: "/Items/Cart",
-                type: "POST",
-                data: { JsonLocalStorageObj: JsonLocalStorageObj },
-                async: false,
-                success: function (data) {
-                    toSendData = data;
-                    localStorage.clear();
-                    localStorage.setItem("Data", JSON.stringify(data)); 
-                },
-                complete: function () {
-                    createTable();
-                    var a = JSON.parse(localStorage.getItem("Data"));
-                    localStorage.clear();
-                    for (var i = 0; i < a.length; i++) {
-                        delete a[i].OrderDetails;
-                        delete a[i].ItemName;
-                        delete a[i].img_src;
-                        delete a[i].ImageFile;
-                    }
-                    localStorage.setItem("Data", a);
-                    $('#hiddentype').val(JSON.stringify(localStorage));
+        else document.getElementById(itemid + "itemAdd").innerText = "";
+    }
+
+    function increment(id) {
+        var quantity = parseInt(document.getElementById(id + "quantity").value);
+        if (quantity >= 0) {
+            document.getElementById(id + "quantity").value = quantity + 1;
+        }
+    }
+
+    function decrement(id) {
+        var quantity = parseInt(document.getElementById(id + "quantity").value);
+        if (quantity > 0) {
+            document.getElementById(id + "quantity").value = quantity - 1;
+        }
+    }
+
+    function SendtoController() {
+        var JsonLocalStorageObj = JSON.stringify(localStorage);
+        var metaData, headers, toSendData;
+        $.ajax({
+            url: "/Items/Cart",
+            type: "POST",
+            data: { JsonLocalStorageObj: JsonLocalStorageObj },
+            async: false,
+            success: function (data) {
+                toSendData = data;
+                localStorage.clear();
+                localStorage.setItem("Data", JSON.stringify(data));
+            },
+            complete: function () {
+                createTable();
+                Modaldisplay(); 
+                var a = JSON.parse(localStorage.getItem("Data"));
+                localStorage.clear();
+                for (var i = 0; i < a.length; i++) {
+                    delete a[i].OrderDetails;
+                    delete a[i].ItemName;
+                    delete a[i].img_src;
+                    delete a[i].ImageFile;
                 }
-            });
-        }
-
-        //function Order() {
-        //    var JsonLocalStorageObj = JSON.stringify(localStorage);
-        //    $.ajax({
-        //        url: "/Orders/Create",
-        //        type: "POST",
-        //        data: { JsonLocalStorageObj: JsonLocalStorageObj },
-        //        async: false,
-        //        success: function (data) {
-        //            localStorage.setItem("Data", JSON.stringify(data));
-        //        },
-        //        complete: function () {
-        //        }
-        //    });
-        //}
-
-        function addToHidden() { $('#hiddentype').val('lkjasldfj'); }
-        function createTable() {
-            metaData = JSON.parse(localStorage.getItem("Data"));
-            console.log(metaData);
-            headers = ["Name", "Quantity", "Price"];
-            var table = document.getElementById("myTable");
-            var rowhead = table.insertRow(0);
-            for (let i = 0; i < headers.length; i++) {
-                var headerCell = document.createElement("TH");
-                headerCell.innerHTML = "<b>" + headers[i] + "</b>";
-                rowhead.appendChild(headerCell);
+                localStorage.setItem("Data", JSON.stringify(a));
+                $('#hiddentype').val(JSON.stringify(localStorage.getItem("Data")));
             }
-            createTableData();
-        }
+        });
+    }
 
-        function createTableData() {
-            var properties = ["ItemName", "Quantity", "BasePrice"];
-            var table = document.getElementById("myTable");
-            for (let i = 0; i < metaData.length; i++) {
-                var row = table.insertRow(i + 1);
-                for (let j = 0; j < headers.length; j++) {
-                    var cell = row.insertCell(j);
-                    cell.innerHTML = metaData[i][properties[j]];
-                }
-            }
-            document.getElementById("payment").style.display = '';
+    function addToHidden() { $('#hiddentype').val('lkjasldfj'); }
+    function Modaldisplay() { $('#table').modal('show'); }
+    function createTable() {
+        metaData = JSON.parse(localStorage.getItem("Data"));
+        console.log(metaData);
+        headers = ["Name", "Quantity", "Price"];
+        var table = document.getElementById("myTable");
+        var rowhead = table.insertRow(0);
+        for (let i = 0; i < headers.length; i++) {
+            var headerCell = document.createElement("TH");
+            headerCell.innerHTML = "<b>" + headers[i] + "</b>";
+            rowhead.appendChild(headerCell);
         }
-    </script>
+        createTableData();
+    }
+
+    function createTableData() {
+        var properties = ["ItemName", "Quantity", "BasePrice"];
+        var table = document.getElementById("myTable");
+        for (let i = 0; i < metaData.length; i++) {
+            var row = table.insertRow(i + 1);
+            for (let j = 0; j < headers.length; j++) {
+                var cell = row.insertCell(j);
+                cell.innerHTML = metaData[i][properties[j]];
+            }
+        }
+        document.getElementById("payment").style.display = '';
+    }
+</script>

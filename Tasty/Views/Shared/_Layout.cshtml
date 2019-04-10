@@ -1,78 +1,57 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
-    <title>Tastyy </title>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Tasty</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/owl.carousel.css">
     <link rel="stylesheet" href="~/Content/owl.theme.default.min.css">
-
-    
     <link rel="stylesheet" href="~/Content/templatemo-style.css">
 
 </head>
 <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-
-
-
-
-    <!-- MENU -->
-    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
-        <div class="container">
-
-            <div class="navbar-header">
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon icon-bar"></span>
-                    <span class="icon icon-bar"></span>
-                    <span class="icon icon-bar"></span>
-                </button>
-
-                <!-- lOGO TEXT HERE -->
-                <a href="/Items/View" class="navbar-brand" style="font-family:Algerian; color:lightseagreen; font-size:xx-large">Tasty</a>
+        <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Tasty", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @if (Session["email"] == null)
+                        {
+                            <li>@Html.ActionLink("Register", "Register", "Customers")</li>
+                            <li>@Html.ActionLink("Login", "Login", "Customers")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Logout", "Logout", "Customers")</li>
+                        }
+                    </ul>
+                </div>
             </div>
+            </section>
+            @if (Session["email"] == null)
+            {
+                <h3>Welcome <b>@Session["username"]</b></h3>
+            }
+                @RenderBody()
+                <hr />
+                    <p>&copy; @DateTime.Now.Year - <b>Tasty</b></p>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
 
-            <!-- MENU LINKS -->
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-nav-first">
-                    <li><a href="/Items/View" class="smoothScroll">Home</a></li>
-                    <!--<li><a href="#about" class="smoothScroll">Explore Food</a></li>
-    <li><a href="#contact" class="smoothScroll">Contact</a></li> -->
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/Items/View"><i class="fa fa-phone"></i> +65 2244 1100</a></li>
-                    <li><a href="/Customers/Login"><i class=""></i>Login</a></li>
-                    <li><a href="/Customers/Register"><i class=""></i>Sign up</a></li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-
-    <div class="container body-content" style="background-image:url(../../Content/Images/foot100.jpg);background-repeat:repeat-y; background-size: cover; width:100%; height:900px">
-        @RenderBody()
-        
-
-    </div>
-    <!-- FOOTER -->
-    <!--    <footer id="footer">
-           <img src="~/Content/Images/foot1.jpg"  class="imgClass"/>
-        </footer>
-    -->
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("scripts", required: false)
-
+            @RenderSection("scripts", required: false)
 
 </body>
 </html>

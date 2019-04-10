@@ -16,19 +16,12 @@ namespace Tasty.Controllers
         private TastyEntities db = new TastyEntities();
 
 
-        // GET: Payments/Create
-        public ActionResult Create()
-        {
-            ViewBag.OrderId = new SelectList(db.Orders, "OrderId", "OrderId");
-            return View();
-        }
-
         // POST: Payments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "PaymentId,UserId,OrderId,CardNumber,CardName,Cvv,ExpiryDate")] Payment payment)
+        public async Task<ActionResult> Create2([Bind(Include = "PaymentId,UserId,OrderId,CardNumber,CardName,Cvv,ExpiryDate")] Payment payment)
         {
             if (ModelState.IsValid)
             {
@@ -38,6 +31,19 @@ namespace Tasty.Controllers
             }
             ViewBag.OrderId = new SelectList(db.Orders, "OrderId", "OrderId", payment.OrderId);
             return View(payment);
+        }
+
+        public async Task<ActionResult> Create(Payment payment)
+        {
+            var Payment = db.Set<Payment>();
+            var LastOrderId = db.Orders.Max(x => x.OrderId);
+            if (Session["email"]==null)
+            {
+                return RedirectToAction("Login", "Customers");
+            }
+            Payment.Add(new Payment { OrderId=LastOrderId,UserId= Convert.ToInt32(Session["userid"]),CardName=payment.CardName,CardNumber=payment.CardNumber,Cvv=payment.Cvv,ExpiryDate=payment.ExpiryDate });
+            db.SaveChanges();
+            return RedirectToAction("View", "Items");
         }
     }
 }

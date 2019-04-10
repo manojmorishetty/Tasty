@@ -37,6 +37,7 @@ namespace Tasty.Controllers
             else
             {
                 Session["username"] = db.Customers.Where(e => e.email == customer.email && e.Password == customer.Password).FirstOrDefault().FirstName;
+                Session["userid"] = customer.UserId;
                 Session["email"] = customer.email;
                 Session["UserType"] = customer.UserType;
                 if (userExist.UserType.Equals("Seller"))
