@@ -12,14 +12,11 @@ namespace Tasty
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderDetail
+    public partial class creditcard_type
     {
-        public int OID { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<int> ItemId { get; set; }
-        public Nullable<int> Quantity { get; set; }
-    
-        public virtual Item Item { get; set; }
-        public virtual Order Order { get; set; }
+        public int CardID { get; set; }
+        public string CardName { get; set; }
+        public string StartsWith { get; set; }
+        public decimal length { get; set; }
     }
 }

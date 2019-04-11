@@ -10,10 +10,11 @@
         <EntityTypeShape EntityType="TastyModel.Order" Width="1.5" PointX="3" PointY="7" />
         <AssociationConnector Association="TastyModel.FK__OrderDeta__ItemI__59063A47" />
         <AssociationConnector Association="TastyModel.FK__OrderDeta__Order__5812160E" />
-        <EntityTypeShape EntityType="TastyModel.Payment" Width="1.5" PointX="5.25" PointY="9.75" />
-        <AssociationConnector Association="TastyModel.FK__Payment__OrderId__5BE2A6F2" />
         <EntityTypeShape EntityType="TastyModel.Customer" Width="1.5" PointX="0.75" PointY="6.375" />
         <AssociationConnector Association="TastyModel.FK__Orders__UserId__3B75D760" />
+        <EntityTypeShape EntityType="TastyModel.creditcard_type" Width="1.5" PointX="5.375" PointY="4.875" />
+        <EntityTypeShape EntityType="TastyModel.Payment" Width="1.5" PointX="4.375" PointY="9.375" />
+        <AssociationConnector Association="TastyModel.FK__Payment__OrderId__693CA210" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

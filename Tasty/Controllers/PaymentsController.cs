@@ -26,15 +26,15 @@ namespace Tasty.Controllers
         }
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> Createpost(Payment payment)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(Payment payment)
         {
-            //var Payment = db.Set<Payment>();
-            //var LastOrderId = db.Orders.Max(x => x.OrderId);
-            //Payment.Add(new Payment { OrderId=LastOrderId,UserId= 10,CardName=payment.CardName,CardNumber=payment.CardNumber,Cvv=payment.Cvv,ExpiryDate=payment.ExpiryDate });
-            //db.SaveChanges();
-            return View("View");
+            var Payment = db.Set<Payment>();
+            var LastOrderId = db.Orders.Max(x => x.OrderId);
+            Payment.Add(new Payment { OrderId = LastOrderId, UserId = Convert.ToInt32(Session["userid"].ToString()), CardName = payment.CardName, CardNumber = payment.CardNumber, Cvv = payment.Cvv, ExpiryDate = payment.ExpiryDate });
+            db.SaveChanges();
+            return RedirectToAction("View");
         }
     }
 }

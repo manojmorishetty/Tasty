@@ -28,7 +28,8 @@ namespace Tasty
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<creditcard_type> creditcard_type { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }

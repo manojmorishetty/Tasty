@@ -20,7 +20,7 @@ namespace Tasty
         {
             this.Orders = new HashSet<Order>();
         }
-        
+
         public int UserId { get; set; }
 
         // Inputting First Name 
@@ -86,9 +86,6 @@ namespace Tasty
         public string PhoneNumber { get; set; }
         public string UserType { get; set; }
 
-
-  
-    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Payments", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
@@ -26,11 +26,11 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.CardtType, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.cardType, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.RadioButtonFor(model => model.CardtType, "VISA", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("VISA")
-            @Html.RadioButtonFor(model => model.CardtType, "AMERICAN EXPRESS", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("AMERICAN EXPRESS")
-            @Html.RadioButtonFor(model => model.CardtType, "Master Card", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("Master Card")
+            @Html.RadioButtonFor(model => model.cardType, "VISA", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("VISA")
+            @Html.RadioButtonFor(model => model.cardType, "AMERICAN EXPRESS", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("AMERICAN EXPRESS")
+            @Html.RadioButtonFor(model => model.cardType, "Master Card", new { htmlAttributes = new { @class = "form-control" } })@Html.Label("Master Card")
         </div>
     </div>
 
@@ -62,18 +62,12 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" onclick="paymentsuccess()" value="Create" class="btn btn-default" />
+            <input type="Submit" Value="Create" class="btn btn-primary" />
         </div>
     </div>
 </div>
 }
 
-<script type="text/javascript">
-    function paymentsuccess() {
-        setTimeout(function () {
-            alert("Payment is Success");
-        }, 2000); };
-</script>
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

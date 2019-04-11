@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TastyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="creditcard_type">
+          <Key>
+            <PropertyRef Name="CardID" />
+          </Key>
+          <Property Name="CardID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="StartsWith" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="length" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="UserId" />
@@ -14,12 +23,12 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="UserType" Type="varchar" MaxLength="10" />
           <Property Name="StreetNumber" Type="varchar" MaxLength="50" />
           <Property Name="City" Type="varchar" MaxLength="50" />
           <Property Name="Province" Type="varchar" MaxLength="50" />
           <Property Name="Country" Type="varchar" MaxLength="50" />
           <Property Name="PostalCode" Type="varchar" MaxLength="50" />
-          <Property Name="UserType" Type="varchar" MaxLength="50" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Items">
@@ -39,6 +48,7 @@
           <Property Name="OID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
           <Property Name="ItemId" Type="int" />
+          <Property Name="Quantity" Type="int" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -59,8 +69,9 @@
           <Property Name="CardName" Type="varchar" MaxLength="50" />
           <Property Name="Cvv" Type="int" />
           <Property Name="ExpiryDate" Type="varchar" MaxLength="15" />
+          <Property Name="cardType" Type="varchar" MaxLength="20" />
         </EntityType>
-        <Association Name="FK__OrderDeta__ItemI__3F466844">
+        <Association Name="FK__OrderDeta__ItemI__66603565">
           <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -72,7 +83,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__3E52440B">
+        <Association Name="FK__OrderDeta__Order__656C112C">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -84,7 +95,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Orders__UserId__3B75D760">
+        <Association Name="FK__Orders__UserId__628FA481">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,7 +107,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Payment__OrderId__4222D4EF">
+        <Association Name="FK__Payment__OrderId__693CA210">
           <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -109,24 +120,25 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TastyModelStoreContainer">
+          <EntitySet Name="creditcard_type" EntityType="Self.creditcard_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__OrderDeta__ItemI__3F466844" Association="Self.FK__OrderDeta__ItemI__3F466844">
+          <AssociationSet Name="FK__OrderDeta__ItemI__66603565" Association="Self.FK__OrderDeta__ItemI__66603565">
             <End Role="Items" EntitySet="Items" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__3E52440B" Association="Self.FK__OrderDeta__Order__3E52440B">
+          <AssociationSet Name="FK__OrderDeta__Order__656C112C" Association="Self.FK__OrderDeta__Order__656C112C">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderDetails" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Orders__UserId__3B75D760" Association="Self.FK__Orders__UserId__3B75D760">
+          <AssociationSet Name="FK__Orders__UserId__628FA481" Association="Self.FK__Orders__UserId__628FA481">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK__Payment__OrderId__4222D4EF" Association="Self.FK__Payment__OrderId__4222D4EF">
+          <AssociationSet Name="FK__Payment__OrderId__693CA210" Association="Self.FK__Payment__OrderId__693CA210">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
@@ -147,15 +159,16 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <EntitySet Name="Payments" EntityType="TastyModel.Payment" />
-          <AssociationSet Name="FK__Payment__OrderId__5BE2A6F2" Association="TastyModel.FK__Payment__OrderId__5BE2A6F2">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="Payment" EntitySet="Payments" />
-          </AssociationSet>
           <EntitySet Name="Customers" EntityType="TastyModel.Customer" />
           <AssociationSet Name="FK__Orders__UserId__3B75D760" Association="TastyModel.FK__Orders__UserId__3B75D760">
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="creditcard_type" EntityType="TastyModel.creditcard_type" />
+          <EntitySet Name="Payments" EntityType="TastyModel.Payment" />
+          <AssociationSet Name="FK__Payment__OrderId__693CA210" Association="TastyModel.FK__Payment__OrderId__693CA210">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Item">
@@ -178,6 +191,7 @@
           <Property Name="ItemId" Type="Int32" />
           <NavigationProperty Name="Item" Relationship="TastyModel.FK__OrderDeta__ItemI__59063A47" FromRole="OrderDetail" ToRole="Item" />
           <NavigationProperty Name="Order" Relationship="TastyModel.FK__OrderDeta__Order__5812160E" FromRole="OrderDetail" ToRole="Order" />
+          <Property Name="Quantity" Type="Int32" />
         </EntityType>
         <EntityType Name="Order">
           <Key>
@@ -187,8 +201,8 @@
           <Property Name="UserId" Type="Int32" />
           <Property Name="OrderPrice" Type="Double" />
           <NavigationProperty Name="OrderDetails" Relationship="TastyModel.FK__OrderDeta__Order__5812160E" FromRole="Order" ToRole="OrderDetail" />
-          <NavigationProperty Name="Payments" Relationship="TastyModel.FK__Payment__OrderId__5BE2A6F2" FromRole="Order" ToRole="Payment" />
           <NavigationProperty Name="Customer" Relationship="TastyModel.FK__Orders__UserId__3B75D760" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Payments" Relationship="TastyModel.FK__Payment__OrderId__693CA210" FromRole="Order" ToRole="Payment" />
         </EntityType>
         <Association Name="FK__OrderDeta__ItemI__59063A47">
           <End Type="TastyModel.Item" Role="Item" Multiplicity="0..1" />
@@ -214,31 +228,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Payment">
-          <Key>
-            <PropertyRef Name="PaymentId" />
-          </Key>
-          <Property Name="PaymentId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="OrderId" Type="Int32" />
-          <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CardName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Cvv" Type="Int32" />
-          <Property Name="ExpiryDate" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order" Relationship="TastyModel.FK__Payment__OrderId__5BE2A6F2" FromRole="Payment" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK__Payment__OrderId__5BE2A6F2">
-          <End Type="TastyModel.Order" Role="Order" Multiplicity="0..1" />
-          <End Type="TastyModel.Payment" Role="Payment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderId" />
-            </Principal>
-            <Dependent Role="Payment">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="UserId" />
@@ -253,7 +242,7 @@
           <Property Name="Province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orders" Relationship="TastyModel.FK__Orders__UserId__3B75D760" FromRole="Customer" ToRole="Order" />
         </EntityType>
@@ -266,6 +255,41 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="creditcard_type">
+          <Key>
+            <PropertyRef Name="CardID" />
+          </Key>
+          <Property Name="CardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="StartsWith" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="length" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CardName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cvv" Type="Int32" />
+          <Property Name="ExpiryDate" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="cardType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="TastyModel.FK__Payment__OrderId__693CA210" FromRole="Payment" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Payment__OrderId__693CA210">
+          <End Type="TastyModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="TastyModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -289,6 +313,7 @@
           <EntitySetMapping Name="OrderDetails">
             <EntityTypeMapping TypeName="TastyModel.OrderDetail">
               <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="OID" ColumnName="OID" />
@@ -301,19 +326,6 @@
                 <ScalarProperty Name="OrderPrice" ColumnName="OrderPrice" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Payments">
-            <EntityTypeMapping TypeName="TastyModel.Payment">
-              <MappingFragment StoreEntitySet="Payment">
-                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
-                <ScalarProperty Name="Cvv" ColumnName="Cvv" />
-                <ScalarProperty Name="CardName" ColumnName="CardName" />
-                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -332,6 +344,30 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="creditcard_type">
+            <EntityTypeMapping TypeName="TastyModel.creditcard_type">
+              <MappingFragment StoreEntitySet="creditcard_type">
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="StartsWith" ColumnName="StartsWith" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="CardID" ColumnName="CardID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="TastyModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="cardType" ColumnName="cardType" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="Cvv" ColumnName="Cvv" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

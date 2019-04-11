@@ -140,6 +140,9 @@
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="creditcard_type.cs">
+      <DependentUpon>Tasty.tt</DependentUpon>
+    </Compile>
     <Compile Include="Customer.cs">
       <DependentUpon>Tasty.tt</DependentUpon>
     </Compile>

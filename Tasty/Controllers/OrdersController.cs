@@ -55,16 +55,16 @@ namespace Tasty.Controllers
             int length = items.Count;
             for (int i = 0; i < length; i++)
             {
-                Console.WriteLine(Data[i].BasePrice);
+                Console.WriteLine(Data[i].BasePrice); totalprice = 800;
                 //totalprice = totalprice+ float.Parse(Data[i].BasePrice, CultureInfo.InvariantCulture);
             }
-            totalprice = 800;
+            
             var Order = db.Set<Order>();
             if (Session["userid"] == null)
             {
                 //Convert.ToInt32(Session["userid"])
             }
-            Order.Add(new Order { UserId = 4, OrderPrice = totalprice });
+            Order.Add(new Order { UserId = Convert.ToInt32(Session["userid"].ToString()), OrderPrice = totalprice });
             db.SaveChanges();
             for (int i=0;i<length;i++)
             {

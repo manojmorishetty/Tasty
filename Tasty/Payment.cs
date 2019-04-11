@@ -12,10 +12,11 @@ namespace Tasty
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Payment
     {
-        public int PaymentId { get; set; }
+        public Nullable<int> PaymentId { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> OrderId { get; set; }
         [Required(ErrorMessage = "Please enter the Card Number")]
@@ -28,14 +29,18 @@ namespace Tasty
         [RegularExpression(@"^[a-zA-Z]{5,20}$", ErrorMessage = "Invalid characters")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Only 5-20 characters allowed")]
         public string CardName { get; set; }
-        [Required(ErrorMessage = "Please enter the CVV")]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "Invalid CVV Number")]
+        [Required(ErrorMessage = "Please Enter CVV")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "Invalid CVV")]
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Only Digits")]
+        [Display(Name = "CVV")]
+        [DataType(DataType.Password)]
         public Nullable<int> Cvv { get; set; }
-        [Required(ErrorMessage = "Please enter Expiry Date")]
         [Display(Name = "Expiry Date")]
+        [Required(ErrorMessage = "Please enter the expiry date")]
+        [RegularExpression(@"(0[1-9]|10|11|12)/(201[6-9]|202[0-9]|2030|2031)$", ErrorMessage = "Invalid Expiry date")]
         public string ExpiryDate { get; set; }
-        public string CardtType { get; set; }
+        [NotMapped]
+        public string cardType { get; set; }
         public virtual Order Order { get; set; }
     }
 }
